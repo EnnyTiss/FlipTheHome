@@ -1,0 +1,38 @@
+<<: !include ble/ble_tracker.yaml
+<<: !include ble/ble_presence.yaml
+<<: !include ble/ble_rssi.yaml
+
+#******* Fichier de configuration ESPHome principal*******#
+
+esphome:
+  name: esp32_homelab
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+upload_port: /dev/ttyUSB0
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "1127666"
+
+ota:
+  - platform: esphome
+    password: "1127666"
+
+wifi:
+  ssid: "Galaxy A35 5G C02A"
+  password: "dvw36586z98nyj7"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ble Fallback Hotspot"
+    password: "hR0T7dok9Zqr"
+
+captive_portal:
+    

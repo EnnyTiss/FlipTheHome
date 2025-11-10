@@ -1,0 +1,1 @@
+{"version":3,"file":"c.BqFZjOdP.js","sources":["../../../../src/util/sleep.ts"],"sourcesContent":["export const sleep = (time: number) =>\n  new Promise((resolve) => setTimeout(resolve, time));\n"],"names":["sleep","time","Promise","resolve","setTimeout"],"mappings":"AAAO,MAAMA,EAASC,GACpB,IAAIC,SAASC,GAAYC,WAAWD,EAASF"}

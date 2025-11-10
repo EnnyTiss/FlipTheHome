@@ -1,0 +1,2 @@
+[console_scripts]
+esphome = esphome.__main__:main
