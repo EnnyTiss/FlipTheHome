@@ -1,0 +1,71 @@
+esphome:
+  name: esp32_s3_homelab
+  platform: ESP32
+  board: esp32-s3-devkitc-1
+
+# --- BLE scanner ---
+esp32_ble_tracker:
+
+# --- Wi-Fi config ---
+wifi:
+  ssid: "TON_SSID"         # remplace par ton SSID
+  password: "TON_PASSWORD"  # remplace par ton mot de passe Wi-Fi
+
+# --- MQTT config ---
+mqtt:
+  broker: "IP_DE_TON_PC"    # remplace par l'IP de ton PC / serveur MQTT
+  username: "mqttuser"      # remplace par ton user MQTT
+  password: "mqttpassword"  # remplace par ton mot de passe MQTT
+  discovery: false
+
+logger:
+  level: DEBUG
+
+ota:
+
+# --- Capteur Wi-Fi RSSI ---
+sensor:
+  - platform: wifi_signal
+    name: "ESP32 WiFi RSSI"
+    update_interval: 60s
+
+# --- Statut de l'ESP32 ---
+binary_sensor:
+  - platform: status
+    name: "ESP32 Status"
+
+# --- BLE Presence pour un appareil spécifique (exemple) ---
+binary_sensor:
+  - platform: ble_presence
+    mac_address: "AA:BB:CC:DD:EE:FF"   # remplace par le MAC BLE de ton téléphone si tu veux tracker un appareil précis
+    name: "Phone_Sarah_BLE"
+    id: phone_sarah_ble
+    on_press:
+      - mqtt.publish:
+          topic: "presence/phone_sarah/ble"
+          payload: "1"
+    on_release:
+      - mqtt.publish:
+          topic: "presence/phone_sarah/ble"
+          payload: "0"
+
+# --- Heartbeat JSON via MQTT ---
+interval:
+  - interval: 60s
+    then:
+      - lambda: |-
+          char buf[256];
+          int rssi = WiFi.RSSI();
+          unsigned long up = millis() / 1000;
+          snprintf(buf, sizeof(buf), "{\"rssi\": %d, \"uptime\": %lu}", rssi, up);
+          id(mqtt_client).publish("home/esp32/metrics", buf);
+
+# --- MQTT client id pour lambda ---
+mqtt:
+  broker: "IP_DE_TON_PC"
+  username: "mqttuser"
+  password: "mqttpassword"
+  on_message:
+    - topic: "control/esp32/#"
+      then:
+        - logger.log: "received control message"
