@@ -1,3 +1,4 @@
 build/
 esphome/.esphome/
 esphome/venv
+esphome/secrets.yaml
