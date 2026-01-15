@@ -117,6 +117,7 @@ sensor:
             topic: "lab/esp32_ble/sensor/wifi_rssi_json"
             payload: |-
               root["value"] = x;
+        # autres informations pour Grafana
 
 text_sensor:
   - platform: wifi_info
@@ -134,8 +135,3 @@ text_sensor:
 #     - median:
 #         window_size: 7
 #         send_every: 4
-
-# Includes BLE
-<<: !include ble/ble_tracker.yaml
-<<: !include ble/ble_presence.yaml
-<<: !include ble/ble_rssi.yaml
