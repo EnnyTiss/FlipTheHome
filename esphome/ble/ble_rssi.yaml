@@ -1,5 +1,0 @@
-# detection puissance signal BLE
-sensor:
-  - platform: ble_rssi
-    mac_address: AA:BB:CC:DD:EE:FF
-    name: "RSSI téléphone"
