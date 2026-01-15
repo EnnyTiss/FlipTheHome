@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% end %} - ESPHome</title>
+
+    <link
+      rel="shortcut icon"
+      href="{{ get_static_file_url('images/favicon.ico') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ get_static_file_url('fonts/material-icons/material-icons.css') }}"
+    />
+    <link
+      rel="preload"
+      href="{{ get_static_file_url('fonts/material-icons/MaterialIcons-Regular.woff2') }}"
+      as="font"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ get_static_file_url('css/esphome-2.css') }}"
+    />
+  </head>
+
+  <body>
+    {% block main %}{% end %}
+    {% block footer %}{% end %}
+  </body>
+</html>

@@ -1,0 +1,141 @@
+#******* Fichier de configuration ESPHome principal*******#
+
+esphome:
+  name: esp32_homelab
+  platformio_options:
+    build_flags:
+      - -D CONFIG_LOG_COLORS=0
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework: 
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  id: wifi_wificomponent
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  reboot_timeout: 0s
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret fallback_ap_ssid
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+# SCAN WIFI
+interval:
+  - interval: 60s
+    then:
+      - if:
+          condition:
+            lambda: 'return !id(ble_switch).state && id(mqtt_client).is_connected();'
+          then:
+            - logger.log: "Lancement du scan..."
+            - lambda: 'id(wifi_wificomponent).start_scanning();'
+            - delay: 10s
+            - wait_until:
+                lambda: 'return id(mqtt_client).is_connected();'
+            - lambda: |-
+                auto &results = id(wifi_wificomponent).get_scan_result();
+                for (auto &it : results) {
+                  if (it.get_ssid().empty()) continue;
+                  id(mqtt_client).publish_json(
+                    "lab/esp32_ble/wifi_scan",
+                    [=](JsonObject root) {
+                      root["ssid"] = it.get_ssid();
+                      root["rssi"] = it.get_rssi();
+                      root["auth"] = it.get_with_auth() ? "PROTECTED" : "OPEN";
+                    }
+                  );
+                }
+                ESP_LOGI("custom: wifi", "Scan transmis apres reconnexion");
+
+switch:
+  - platform: template
+    name: "Activation Scan BLE"
+    id: ble_switch
+    optimistic: true
+    restore_mode: ALWAYS_ON
+    on_turn_on:
+      - lambda: id(esp32_ble_tracker_id).start_scan();
+    on_turn_off:
+      - lambda: id(esp32_ble_tracker_id).stop_scan();
+
+# BLE SCAN GLOBAL
+esp32_ble_tracker:
+  id: esp32_ble_tracker_id
+  scan_parameters:
+    active: false
+    interval: 1000ms
+    window: 300ms
+
+  on_ble_advertise:
+    then:
+     # - lambda: |- # Scan global console
+      #    std::string name = x.get_name();
+       #   if (name.empty()) {
+        #    name = "Inconnu";
+         # }
+          #ESP_LOGI("BLE_SCAN", "[%-15s] RSSI: %d dBm | Adr: %s", 
+           #        name.c_str(), 
+            #       x.get_rssi(), 
+             #      x.address_str().c_str());
+      - mqtt.publish: # Scan global Grafana
+          topic: "lab/esp32_ble/global_scan"
+          payload: !lambda |-
+            return "{\"name\": \"" + x.get_name() + "\", \"address\": \"" + x.address_str() + "\", \"rssi\": " + std::to_string(x.get_rssi()) + "}";
+
+# Communication MQTT vers le serveur Docker
+mqtt:
+  id: mqtt_client
+  broker: !secret mqtt_broker_ip
+  topic_prefix: lab/esp32_ble
+  keepalive: 60s
+  reboot_timeout: 30s
+
+sensor:
+  - platform: wifi_signal
+    name: "RSSI Hotspot"
+    id: wifi_rssi_sensor
+    update_interval: 10s
+    force_update: true
+    on_value:
+      then:
+        - mqtt.publish_json:
+            topic: "lab/esp32_ble/sensor/wifi_rssi_json"
+            payload: |-
+              root["value"] = x;
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "ESP32 IP"
+    bssid:
+      name: "Mac Hotspot" # Pour vérifier si l'ESP change de borne
+
+# Sensor RSSI pour données Grafana
+# sensor:
+# - platform: ble_rssi
+#  mac_address: A0:7D:9C:8B:C0:29  # MAC tel personnel
+#   name: "Signal_Tel_Lab"
+#   filters:
+#     - median:
+#         window_size: 7
+#         send_every: 4
+
+# Includes BLE
+<<: !include ble/ble_tracker.yaml
+<<: !include ble/ble_presence.yaml
+<<: !include ble/ble_rssi.yaml

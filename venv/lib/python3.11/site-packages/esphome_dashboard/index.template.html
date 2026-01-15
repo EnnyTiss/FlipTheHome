@@ -1,0 +1,21 @@
+// prettier-ignore
+{% extends base.template.html %}
+{% block title %}Dashboard{% end %}
+{% block header %}
+{% end %}
+
+{% block main %}
+<esphome-main
+  version="{{ version }}"
+  docsLink="{{ docs_link }}"
+  {% if login_enabled %}logoutUrl="{{ relative_url }}logout"{% end %}
+></esphome-main>
+{% end %}
+
+{% block footer %}
+<script
+  src="{{ get_static_file_url('js/esphome/index.js') }}"
+  type="module"
+></script>
+{% end %}
+<!-- prettier-ignore -->

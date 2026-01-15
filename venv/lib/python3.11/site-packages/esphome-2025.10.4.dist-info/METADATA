@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: esphome
+Version: 2025.10.4
+Summary: ESPHome is a system to configure your microcontrollers by simple yet powerful configuration files and control them remotely through Home Automation systems.
+Author-email: The ESPHome Authors <esphome@openhomefoundation.org>
+License-Expression: MIT
+Project-URL: Documentation, https://esphome.io
+Project-URL: Source Code, https://github.com/esphome/esphome
+Project-URL: Bug Tracker, https://github.com/esphome/esphome/issues
+Project-URL: Feature Request Tracker, https://github.com/orgs/esphome/discussions
+Project-URL: Discord, https://discord.gg/KhAMKrd
+Project-URL: Forum, https://community.home-assistant.io/c/esphome
+Project-URL: Twitter, https://twitter.com/esphome_
+Keywords: home,automation
+Platform: any
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Home Automation
+Requires-Python: >=3.11.0
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cryptography==45.0.1
+Requires-Dist: voluptuous==0.15.2
+Requires-Dist: PyYAML==6.0.3
+Requires-Dist: paho-mqtt==1.6.1
+Requires-Dist: colorama==0.4.6
+Requires-Dist: icmplib==3.0.4
+Requires-Dist: tornado==6.5.2
+Requires-Dist: tzlocal==5.3.1
+Requires-Dist: tzdata>=2021.1
+Requires-Dist: pyserial==3.5
+Requires-Dist: platformio==6.1.18
+Requires-Dist: esptool==5.1.0
+Requires-Dist: click==8.1.7
+Requires-Dist: esphome-dashboard==20251013.0
+Requires-Dist: aioesphomeapi==41.16.1
+Requires-Dist: zeroconf==0.148.0
+Requires-Dist: puremagic==1.30
+Requires-Dist: ruamel.yaml==0.18.15
+Requires-Dist: ruamel.yaml.clib==0.2.12
+Requires-Dist: esphome-glyphsets==0.2.0
+Requires-Dist: pillow==10.4.0
+Requires-Dist: cairosvg==2.8.2
+Requires-Dist: freetype-py==2.5.1
+Requires-Dist: jinja2==3.1.6
+Requires-Dist: kconfiglib==13.7.1
+Requires-Dist: pyparsing>=3.0
+Requires-Dist: argcomplete>=2.0.0
+Provides-Extra: dev
+Requires-Dist: clang-format==13.0.1; extra == "dev"
+Requires-Dist: clang-tidy==18.1.8; extra == "dev"
+Requires-Dist: yamllint==1.37.1; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pylint==3.3.9; extra == "test"
+Requires-Dist: flake8==7.3.0; extra == "test"
+Requires-Dist: ruff==0.14.0; extra == "test"
+Requires-Dist: pyupgrade==3.20.0; extra == "test"
+Requires-Dist: pre-commit; extra == "test"
+Requires-Dist: pytest==8.4.2; extra == "test"
+Requires-Dist: pytest-cov==7.0.0; extra == "test"
+Requires-Dist: pytest-mock==3.15.1; extra == "test"
+Requires-Dist: pytest-asyncio==1.2.0; extra == "test"
+Requires-Dist: pytest-xdist==3.8.0; extra == "test"
+Requires-Dist: asyncmock==0.4.2; extra == "test"
+Requires-Dist: hypothesis==6.92.1; extra == "test"
+Dynamic: license-file
+
+# ESPHome [![Discord Chat](https://img.shields.io/discord/429907082951524364.svg)](https://discord.gg/KhAMKrd) [![GitHub release](https://img.shields.io/github/release/esphome/esphome.svg)](https://GitHub.com/esphome/esphome/releases/)
+
+<a href="https://esphome.io/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://esphome.io/_static/logo-text-on-dark.svg", alt="ESPHome Logo">
+    <img src="https://esphome.io/_static/logo-text-on-light.svg" alt="ESPHome Logo">
+  </picture>
+</a>
+
+---
+
+[Documentation](https://esphome.io) -- [Issues](https://github.com/esphome/esphome/issues) -- [Feature requests](https://github.com/orgs/esphome/discussions)
+
+---
+
+[![ESPHome - A project from the Open Home Foundation](https://www.openhomefoundation.org/badges/esphome.png)](https://www.openhomefoundation.org/)

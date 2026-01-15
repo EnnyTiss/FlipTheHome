@@ -1,0 +1,22 @@
+interval:
+  - interval: 5min
+    then:
+      - lambda: |-
+          wifi::global_wifi_component->start_scanning();
+
+wifi:
+  on_scan_results:
+    - then:
+        - lambda: |-
+            for (auto &res : results) {
+              std::string ssid = res.get_ssid();
+              if (ssid.empty()) continue; 
+              std::string topic = "esphome/wifi/scan/" + ssid;
+              id(mqtt_client).publish(topic, std::to_string(res.get_rssi()));
+            }
+
+sensor:
+  - platform: wifi_signal
+    name: "Signal_Hotspot_Actuel"
+    state_topic: "esphome/wifi/current_rssi"
+    update_interval: 60s

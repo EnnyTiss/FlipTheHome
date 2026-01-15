@@ -1,0 +1,140 @@
+{% extends base_with_header_footer.template.html %}
+
+{% block title %}Login{% end %}
+
+{% block main %}
+<style>
+  :root {
+    --placeholder-color: #bababa;
+    --button-bg-color: #0075aa;
+    --button-text-color: #efefef;
+  }
+
+  /* dark theme */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --placeholder-color: #8a8a8a;
+    }
+  }
+
+  .container {
+    margin-top: 40px;
+    display: grid;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .card {
+    width: 250px;
+    padding: 30px;
+    color: var(--primary-text-color);
+    background-color: var(--card-background-color);
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 3px 1px -2px, rgba(0, 0, 0, 0.2) 0px 1px 5px 0px
+  }
+
+  #login-head {
+    margin-top: 0;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  /* Alerts & Errors */
+  .alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 2px;
+    border-left-width: 4px;
+    border-left-style: solid;
+  }
+
+  .alert .title {
+    font-weight: bold;
+  }
+
+  .alert .title::after {
+    content: "\A";
+    white-space: pre;
+  }
+
+  .alert.alert-error {
+    color: var(--alert-error-color);
+    border-left-color: var(--alert-error-color);
+    background-color: var(--alert-error-color-bg);
+  }
+
+  #login-form {
+    align-self: flex-start;
+    display: grid;
+    justify-items: left;
+    align-items: center;
+  }
+
+  #login-form .row {
+    display: flex;
+    width: 100%;
+  }
+
+  #login-form .material-icons {
+    margin-top: -5px;
+  }
+
+  .login-form-field::placeholder {
+    color: var(--placeholder-color);
+  }
+
+  .login-form-field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--primary-text-color);
+    margin-bottom: 15px;
+    outline: none;
+    padding: 0px 0px 5px 5px;
+    color: var(--primary-text-color);
+    background-color: var(--card-background-color);
+  }
+
+  #login-form-submit {
+    width: 50%;
+    padding: 7px;
+    border: none;
+    border-radius: 5px;
+    color: var(--button-text-color);
+    font-weight: bold;
+    background-color: var(--button-bg-color);
+    cursor: pointer;
+    outline: none;
+    margin-left: 25px;
+  }
+</style>
+
+<div class="container">
+  <div class="card">
+    <h3 id="login-head" class="center">Login</h3>
+    <p class="center">Enter your {% if ha_addon %}Home Assistant{% else %}ESPHome{% end %} credentials.</p>
+    <form action="./login" method="post" id="login-form">
+      {% module xsrf_form_html() %}
+      {% if has_username or ha_addon %}
+      <div class="row">
+        <i class="material-icons prefix">person</i>
+        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+      </div>
+      {% end %}
+      <div class="row">
+        <i class="material-icons prefix">lock</i>
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+      </div>
+      <div class="row">
+        <input type="submit" value="Login" id="login-form-submit">
+      </div>
+    </form>
+    {% if error is not None %}
+    <div class="alert alert-error">
+      <span class="title">Error!</span>
+      {{ escape(error) }}
+    </div>
+    {% end %}
+  </div>
+</div>
+{% end %}

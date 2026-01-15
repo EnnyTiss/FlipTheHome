@@ -1,0 +1,199 @@
+/* Base */
+
+:root {
+  /* Colors */
+  --primary-bg-color: #fafafa;
+  --primary-footer-bg-color: #212121;
+  --card-background-color: #fafafa;
+  --alert-standard-color: #666666;
+  --alert-standard-color-bg: #e6e6e6;
+  --alert-info-color: #00539f;
+  --alert-info-color-bg: #e6eef5;
+  --alert-success-color: #4caf50;
+  --alert-success-color-bg: #edf7ee;
+  --alert-warning-color: #ff9800;
+  --alert-warning-color-bg: #fff5e6;
+  --alert-error-color: #d93025;
+  --alert-error-color-bg: #faefeb;
+  --mdc-theme-primary: #03a9f4;
+  --primary-text-color: #212121;
+  --mdc-dialog-z-index: 998;
+  --mdc-theme-primary-no-attention: #444444;
+  --mdc-theme-on-primary-no-attention: white;
+  --esphome-background-header: #e0e0e0;
+  --mdc-theme-on-primary: white;
+  --mdc-dialog-heading-ink-color: #212121;
+  --mdc-dialog-content-ink-color: #212121;
+  --highlight-button-color: #2e3dd4;
+  --status-connected: #444444;
+  --status-new: #ffa500;
+  --status-imported: #4caf50;
+}
+
+/* dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-bg-color: #000000;
+    --primary-text-color: #e1e1e1;
+    --primary-footer-bg-color: #101e24;
+    --esphome-background-header: #282828;
+    --card-background-color: #282828;
+    --card-text-color: #e1e1e1;
+    --primary-text-color: #e1e1e1;
+    --mdc-theme-surface: #282828;
+    --mdc-theme-on-surface: #e1e1e1;
+    --mdc-theme-text-primary-on-background: #e1e1e1;
+    --mdc-dialog-heading-ink-color: #e1e1e1;
+    --mdc-theme-primary-no-attention: #cecece;
+    --mdc-theme-on-primary-no-attention: #222222;
+    --mdc-dialog-content-ink-color: #e1e1e1;
+    --mdc-text-field-ink-color: #e1e1e1;
+    --mdc-text-field-label-ink-color: #e1e1e1;
+    --mdc-ripple-color: #282828;
+    --mdc-text-field-fill-color: #3d3d3d;
+    --mdc-theme-text-secondary-on-background: #e1e1e1;
+    --highlight-button-color: #5f7eeb;
+    --status-connected: #cecece;
+    --mdc-ripple-color: #bebebe;
+  }
+
+  .esphome-header img {
+    filter: invert(1);
+  }
+}
+
+html {
+  font-size: 15px;
+  line-height: 1.5;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: var(--primary-bg-color);
+  margin: 0;
+}
+
+/* Layout */
+main {
+  margin-top: 56px;
+  flex: 1 0 auto;
+  display: grid;
+}
+
+esphome-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.esphome-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  background-color: var(--esphome-background-header);
+  color: var(--primary-text-color);
+  padding: 0 24px;
+  z-index: 1;
+}
+
+.flex {
+  flex: 1;
+}
+
+.esphome-header img {
+  width: auto;
+  height: 38px;
+}
+
+#js-loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.editor {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-radius: 3px;
+  height: calc(100% - 56px);
+}
+
+.inlinecode {
+  box-sizing: border-box;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+}
+
+ul.browser-default {
+  padding-left: 30px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+ul.browser-default li {
+  list-style-type: initial;
+}
+
+.select-action {
+  width: auto !important;
+  height: auto !important;
+  white-space: nowrap;
+}
+
+.modal {
+  width: 95%;
+  max-height: 90%;
+  height: 85% !important;
+}
+.modal .modal-footer mwc-button {
+  margin: 6px 0;
+}
+
+.page-footer {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  color: grey;
+  background-color: var(--primary-footer-bg-color);
+}
+
+.page-footer a {
+  color: #afafaf;
+}
+
+@media only screen and (min-width: 993px) {
+  .page-footer {
+    padding-left: 10%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .esphome-header {
+    height: 52px;
+    padding: 0 8px;
+  }
+  main {
+    margin-top: 52px;
+  }
+  .page-footer {
+    padding: 0 8px 72px; /* allow reading footer while fab hovers */
+    box-sizing: border-box;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% end %} - ESPHome</title>
+
+    <link
+      rel="shortcut icon"
+      href="{{ get_static_file_url('images/favicon.ico') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ get_static_file_url('fonts/material-icons/material-icons.css') }}"
+    />
+    <link
+      rel="preload"
+      href="{{ get_static_file_url('fonts/material-icons/MaterialIcons-Regular.woff2') }}"
+      as="font"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ get_static_file_url('css/esphome-2.css') }}"
+    />
+  </head>
+
+  <body>
+    <header class="esphome-header">
+      <img
+        src="{{ get_static_file_url('images/logo-text.svg') }}"
+        alt="ESPHome Logo"
+      />
+      <div class="flex"></div>
+      {% block header %}{% end %}
+    </header>
+
+    <main>{% block main %}{% end %}</main>
+
+    <footer class="page-footer">
+      <div>
+        ESPHome by Open Home Foundation |
+        <a href="https://esphome.io/guides/supporters.html" target="_blank">Fund&nbsp;development</a>
+        |
+        <a href="{{ docs_link }}" target="_blank" rel="noreferrer">{{ version }} Documentation</a>
+      </div>
+    </footer>
+
+    {% block footer %}{% end %}
+  </body>
+</html>
