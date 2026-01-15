@@ -1,4 +1,6 @@
-build/
-esphome/.esphome/
-esphome/venv
-esphome/secrets.yaml
+flip_the_home/build/
+flip_the_home/esphome/.esphome/
+flip_the_home/esphome/venv
+flip_the_home/esphome/secrets.yaml
+esp-idf/
+venv/
