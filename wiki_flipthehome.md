@@ -12,7 +12,22 @@ Comment centraliser le suivi de la qualité d'un point d'accès mobile et l'acti
 
 ## 3. Matériel & Configuration
 
-    - Architecture : L'écosystème repose sur une stack de monitoring conteneurisée.
+<table border="0">
+  <tr>
+    <td>
+      <figure>
+        <img src="https://github.com/user-attachments/assets/99beecfc-2466-478a-a899-c4a3f3a66786" alt="Devkit" width="400">
+        <figcaption align="center"><i>ESP32-S3 DevkitC-1</i></figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure>
+        <img src="https://github.com/user-attachments/assets/fa339a7f-7915-46c7-afa5-2795fe463a5f" alt="Setup" width="400">
+        <figcaption align="center"><i>Setup ESP32-S3 DevkitC-1</i></figcaption>
+      </figure>
+    </td>
+  </tr>
+</table>
 
     - Logiciels : Mosquitto (Broker MQTT), Telegraf (Ingestion), InfluxDB v2 (Stockage en base de données), Grafana (Visualisation).
 
@@ -27,13 +42,39 @@ FlipTheHome transforme les signaux radio en métriques temporelles :
     - Tracking BLE (Bluetooth Low Energy) : L'ESP32 écoute les messages "Advertisement". Un switch virtuel permet de piloter le scan. Chaque détection (Nom, MAC, RSSI) est encapsulée en JSON et envoyée au broker MQTT.
     - Monitoring Wi-Fi (Liaison Hotspot) : Le capteur surveille en continu la puissance du signal (RSSI) reçu du hotspot mobile (mon téléphone). Cela permet de quantifier la stabilité de la connexion nécessaire au fonctionnement du Homelab.
 
-    Dès qu'un périphérique en BLE est détecté, une lambda C++ génère un JSON contenant le nom, l'adresse MAC et la puissance du signal de l'appreil. Par la suite, cette donnée est envoyée au broker MQTT. C'est là que mon Homelab prend le relais : Telegraf intercepte le JSON, le décode proprement et l'injecte dans InfluxDB. Pour finir, j'ai fait afficher sur l'outil de visualisation Grafana les métriques suivantes:
+### Architecture FlipTheHome
+
+<img width="800" height="400" alt="archi_flipthehome" src="https://github.com/user-attachments/assets/478522b0-c399-4e88-b2e3-4dd2715e4158" />
+
+Dès qu'un périphérique en BLE est détecté, une lambda C++ génère un JSON contenant le nom, l'adresse MAC et la puissance du signal de l'appreil. Par la suite, cette donnée est envoyée au broker MQTT. C'est là que mon Homelab prend le relais : Telegraf intercepte le JSON, le décode proprement et l'injecte dans InfluxDB. Pour finir, j'ai fait afficher sur l'outil de visualisation Grafana les métriques suivantes:
 
     - Liste des appareils BLE alentours.
     - Graphe d'évolution du signal BLE de chaque appareil au cours du temps.
     - Graphe d'évolution du signal Wifi du Hotspot (dans mon cas, mon téléphone).
 
 On peut activer ou désactiver le scan BLE.
+
+<table>
+  <tr>
+    <td>
+      <figure>
+        <img src="https://github.com/user-attachments/assets/545d3638-3f07-4951-a2c1-682e5c266efb" alt="scan_ble_liste" width="400">
+        <figcaption align="center"><i>Liste des appareils BLE</i></figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure>
+        <img src="https://github.com/user-attachments/assets/6ae4e118-369f-494f-9037-01d9593f08bd" alt="Scan_ble_graph" width="400">
+        <figcaption align="center"><i>Signal appareils BLE</i></figcaption>
+      </figure>
+    </td>
+  </tr>
+</table>
+
+### Vidéo Démo
+
+https://github.com/user-attachments/assets/b0349f52-6b6a-4b10-98c1-eefb39337374
+
 
 ## 5. Budget et Temps de travail
 
@@ -42,8 +83,13 @@ On peut activer ou désactiver le scan BLE.
     - Docker, Telegraf, InfluxDB, Grafana: outils gratuits
 
     - Temps de travail : ~30 heures.
+    - Planning intermédiaire :
+        1) Mise en place ESP32-S3 - ~4 heures.
+        2) Implémentation scan BLE - ~10 heures.
+        3) Mise en place environnement Docker, InfluxDB, Grafana et automatisation - ~6 heures.
+        4) Implémentation scan WiFi - ~10 heures
 
-    - Ce qui m'a pris le plus de temps : Mise en place de la stack Docker, structuration des flux MQTT et résolution des conflits radio sur l'antenne unique de l'ESP32-S3.
+    - Ce qui m'a pris le plus de temps finalement : Mise en place de la stack Docker, structuration des flux MQTT et résolution des conflits radio sur l'antenne unique de l'ESP32-S3.
 
 ## 6. Bilan et Analyse technique
 
